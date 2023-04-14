@@ -9,11 +9,10 @@
 #include <typeinfo>
 #include <utility>
 #include <vector>
-
 class ExpectationViolation : public std::runtime_error
 {
 public:
-  static constexpr std::string boolstr( bool b ) { return b ? "true" : "false"; }
+  static auto boolstr( bool b ) { return b ? "true" : "false"; } // try many return type, I have no idea which type should be, auto solve this
 
   explicit ExpectationViolation( const std::string& msg ) : std::runtime_error( msg ) {}
 
