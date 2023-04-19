@@ -1,79 +1,86 @@
 #include <stdexcept>
-
+#include <cstring>
 #include "byte_stream.hh"
 
 using namespace std;
 
 ByteStream::ByteStream( uint64_t capacity )
   : capacity_( capacity )
-{}
+{
+  allocator<char> alloc;
+  buffer_ = alloc.allocate(capacity_);
+}
+
+ByteStream::~ByteStream() {
+
+}
 
 void Writer::push( string data )
 {
-  // Your code here.
-  (void)data;
+  auto len = data.size();
+  len = min(len, read_pos_ + capacity_ - write_pos_);
+  auto first_len = min(len, capacity_ - write_pos_ % capacity_);
+  memcpy(buffer_ + (write_pos_ % capacity_), data.data(), first_len);
+  if (len > first_len) {
+    memcpy(buffer_, data.data() + first_len, len - first_len);
+  }
+  write_pos_ += len;
 }
 
 void Writer::close()
 {
-  // Your code here.
+  is_closed_ = true;
 }
 
 void Writer::set_error()
 {
-  // Your code here.
+  has_err_ = true;
 }
 
 bool Writer::is_closed() const
 {
-  // Your code here.
-  return {};
+  return is_closed_;
 }
 
 uint64_t Writer::available_capacity() const
 {
-  // Your code here.
-  return {};
+  return capacity_;
 }
 
 uint64_t Writer::bytes_pushed() const
 {
-  // Your code here.
-  return {};
+  return write_pos_;
 }
 
 string_view Reader::peek() const
 {
-  // Your code here.
-  return {};
+  return string_view{&buffer_[read_pos_ % capacity_], 1};
 }
 
 bool Reader::is_finished() const
 {
-  // Your code here.
-  return {};
+  return is_closed_ && bytes_buffered() == 0;
 }
 
 bool Reader::has_error() const
 {
-  // Your code here.
-  return {};
+  return has_err_;
 }
 
 void Reader::pop( uint64_t len )
 {
-  // Your code here.
-  (void)len;
+  if (read_pos_ + len > write_pos_) {
+    len = write_pos_ - read_pos_;
+  }
+  read_pos_ += len;
 }
 
 uint64_t Reader::bytes_buffered() const
 {
-  // Your code here.
-  return {};
+  return (write_pos_ - read_pos_);
 }
 
 uint64_t Reader::bytes_popped() const
 {
-  // Your code here.
-  return {};
+  return read_pos_;
 }
