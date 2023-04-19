@@ -37,7 +37,8 @@ T FileDescriptor::CheckSystemCall( std::string_view s_attempt, T return_value ) 
 }
 
 // fd is the file descriptor number returned by [open(2)](\ref man2::open) or similar
-FileDescriptor::FDWrapper::FDWrapper( int fd ) : fd_( fd )
+FileDescriptor::FDWrapper::FDWrapper( int fd )
+  : fd_( fd )
 {
   if ( fd < 0 ) {
     throw runtime_error( "invalid fd number:" + to_string( fd ) );
@@ -67,10 +68,13 @@ FileDescriptor::FDWrapper::~FDWrapper()
 }
 
 // fd is the file descriptor number returned by [open(2)](\ref man2::open) or similar
-FileDescriptor::FileDescriptor( int fd ) : internal_fd_( make_shared<FDWrapper>( fd ) ) {}
+FileDescriptor::FileDescriptor( int fd )
+  : internal_fd_( make_shared<FDWrapper>( fd ) )
+{}
 
 // Private constructor used by duplicate()
-FileDescriptor::FileDescriptor( shared_ptr<FDWrapper> other_shared_ptr ) : internal_fd_( move( other_shared_ptr ) )
+FileDescriptor::FileDescriptor( shared_ptr<FDWrapper> other_shared_ptr )
+  : internal_fd_( move( other_shared_ptr ) )
 {}
 
 // returns a copy of this FileDescriptor

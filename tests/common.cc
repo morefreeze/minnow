@@ -41,7 +41,9 @@ string Printer::prettify( string_view str, size_t max_length )
   return ss.str();
 }
 
-Printer::Printer() : is_terminal_( isatty( STDERR_FILENO ) or getenv( "MAKE_TERMOUT" ) ) {}
+Printer::Printer()
+  : is_terminal_( isatty( STDERR_FILENO ) or getenv( "MAKE_TERMOUT" ) )
+{}
 
 string Printer::with_color( int color_value, string_view str ) const
 {

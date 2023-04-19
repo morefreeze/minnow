@@ -4,7 +4,9 @@
 
 using namespace std;
 
-ByteStream::ByteStream( uint64_t capacity ) : capacity_( capacity ) {}
+ByteStream::ByteStream( uint64_t capacity )
+  : capacity_( capacity )
+{}
 
 void Writer::push( string data )
 {

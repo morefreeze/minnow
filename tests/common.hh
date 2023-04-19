@@ -12,9 +12,14 @@
 class ExpectationViolation : public std::runtime_error
 {
 public:
-  static auto boolstr( bool b ) { return b ? "true" : "false"; } // try many return type, I have no idea which type should be, auto solve this
+  static auto boolstr( bool b )
+  {
+    return b ? "true" : "false";
+  } // try many return type, I have no idea which type should be, auto solve this
 
-  explicit ExpectationViolation( const std::string& msg ) : std::runtime_error( msg ) {}
+  explicit ExpectationViolation( const std::string& msg )
+    : std::runtime_error( msg )
+  {}
 
   template<typename T>
   inline ExpectationViolation( const std::string& property_name, const T& expected, const T& actual );
@@ -82,7 +87,8 @@ class TestHarness
 
 protected:
   explicit TestHarness( std::string test_name, std::string_view desc, T&& object )
-    : test_name_( std::move( test_name ) ), obj_( std::move( object ) )
+    : test_name_( std::move( test_name ) )
+    , obj_( std::move( object ) )
   {
     steps_executed_.emplace_back( "Initialized " + demangle( typeid( T ).name() ) + " with " + std::string { desc },
                                   Printer::def );
@@ -126,7 +132,9 @@ template<class T>
 struct ExpectBool : public Expectation<T>
 {
   bool value_;
-  explicit ExpectBool( bool value ) : value_( value ) {}
+  explicit ExpectBool( bool value )
+    : value_( value )
+  {}
   std::string description() const override { return name() + " = " + ExpectationViolation::boolstr( value_ ); }
   virtual std::string name() const = 0;
   virtual bool value( T& ) const = 0;
@@ -143,7 +151,9 @@ template<class T, typename Num>
 struct ExpectNumber : public Expectation<T>
 {
   Num num_;
-  explicit ExpectNumber( Num num ) : num_( num ) {}
+  explicit ExpectNumber( Num num )
+    : num_( num )
+  {}
   std::string description() const override { return name() + " = " + to_string( num_ ); }
   virtual std::string name() const = 0;
   virtual Num value( T& ) const = 0;

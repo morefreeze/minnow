@@ -77,11 +77,15 @@ public:
 class UDPSocket : public DatagramSocket
 {
   //! \param[in] fd is the FileDescriptor from which to construct
-  explicit UDPSocket( FileDescriptor&& fd ) : DatagramSocket( std::move( fd ), AF_INET, SOCK_DGRAM ) {}
+  explicit UDPSocket( FileDescriptor&& fd )
+    : DatagramSocket( std::move( fd ), AF_INET, SOCK_DGRAM )
+  {}
 
 public:
   //! Default: construct an unbound, unconnected UDP socket
-  UDPSocket() : DatagramSocket( AF_INET, SOCK_DGRAM ) {}
+  UDPSocket()
+    : DatagramSocket( AF_INET, SOCK_DGRAM )
+  {}
 };
 
 //! A wrapper around [TCP sockets](\ref man7::tcp)
@@ -90,11 +94,15 @@ class TCPSocket : public Socket
 private:
   //! \brief Construct from FileDescriptor (used by accept())
   //! \param[in] fd is the FileDescriptor from which to construct
-  explicit TCPSocket( FileDescriptor&& fd ) : Socket( std::move( fd ), AF_INET, SOCK_STREAM ) {}
+  explicit TCPSocket( FileDescriptor&& fd )
+    : Socket( std::move( fd ), AF_INET, SOCK_STREAM )
+  {}
 
 public:
   //! Default: construct an unbound, unconnected TCP socket
-  TCPSocket() : Socket( AF_INET, SOCK_STREAM ) {}
+  TCPSocket()
+    : Socket( AF_INET, SOCK_STREAM )
+  {}
 
   //! Mark a socket as listening for incoming connections
   void listen( int backlog = 16 );
@@ -107,7 +115,9 @@ public:
 class PacketSocket : public DatagramSocket
 {
 public:
-  PacketSocket( const int type, const int protocol ) : DatagramSocket( AF_PACKET, type, protocol ) {}
+  PacketSocket( const int type, const int protocol )
+    : DatagramSocket( AF_PACKET, type, protocol )
+  {}
 
   void set_promiscuous();
 };

@@ -29,7 +29,9 @@ struct Push : public Action<ByteStream>
 {
   std::string data_;
 
-  explicit Push( std::string data ) : data_( move( data ) ) {}
+  explicit Push( std::string data )
+    : data_( move( data ) )
+  {}
   std::string description() const override { return "push \"" + Printer::prettify( data_ ) + "\" to the stream"; }
   void execute( ByteStream& bs ) const override { bs.writer().push( data_ ); }
 };
@@ -50,7 +52,9 @@ struct Pop : public Action<ByteStream>
 {
   size_t len_;
 
-  explicit Pop( size_t len ) : len_( len ) {}
+  explicit Pop( size_t len )
+    : len_( len )
+  {}
   std::string description() const override { return "pop( " + std::to_string( len_ ) + " )"; }
   void execute( ByteStream& bs ) const override { bs.reader().pop( len_ ); }
 };
@@ -61,7 +65,9 @@ struct Peek : public Expectation<ByteStream>
 {
   std::string output_;
 
-  explicit Peek( std::string output ) : output_( move( output ) ) {}
+  explicit Peek( std::string output )
+    : output_( move( output ) )
+  {}
 
   std::string description() const override { return "peeking produces \"" + Printer::prettify( output_ ) + "\""; }
 
@@ -168,7 +174,9 @@ struct ReadAll : public Expectation<ByteStream>
   std::string output_;
   BufferEmpty empty_ { true };
 
-  explicit ReadAll( std::string output ) : output_( move( output ) ) {}
+  explicit ReadAll( std::string output )
+    : output_( move( output ) )
+  {}
 
   std::string description() const override
   {

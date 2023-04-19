@@ -10,9 +10,11 @@ class Buffer
 public:
   // NOLINTBEGIN(*-explicit-*)
 
-  Buffer( std::string str = {} ) : buffer_( make_shared<std::string>( std::move( str ) ) ) {}
+  Buffer( std::string str = {} )
+    : buffer_( make_shared<std::string>( std::move( str ) ) )
+  {}
   operator std::string_view() const { return *buffer_; }
-  operator std::string&() { return *buffer_; }
+  operator std::string &() { return *buffer_; }
 
   // NOLINTEND(*-explicit-*)
 
