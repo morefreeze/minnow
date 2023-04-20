@@ -11,7 +11,7 @@ ByteStream::ByteStream( uint64_t capacity )
   peek_ = string( capacity, ' ' );
 }
 
-ByteStream::ByteStream( const ByteStream& other )
+ByteStream::ByteStream( const ByteStream& other ) noexcept
   : capacity_( other.capacity_ )
   , has_err_( other.has_err_ )
   , is_closed_( other.is_closed_ )
@@ -23,7 +23,7 @@ ByteStream::ByteStream( const ByteStream& other )
   peek_ = other.peek_;
 }
 
-ByteStream& ByteStream::operator=( const ByteStream& other )
+ByteStream& ByteStream::operator=( const ByteStream& other ) noexcept
 {
   if ( this != &other ) {
     allocator<char>().deallocate( buffer_, capacity_ );
@@ -39,12 +39,12 @@ ByteStream& ByteStream::operator=( const ByteStream& other )
   return *this;
 }
 
-ByteStream::ByteStream( ByteStream&& other )
+ByteStream::ByteStream( ByteStream&& other ) noexcept
   : capacity_( other.capacity_ )
   , has_err_( other.has_err_ )
   , is_closed_( other.is_closed_ )
   , buffer_( other.buffer_ )
-  , peek_( other.peek_ )
+  , peek_( move(other.peek_) )
   , write_pos_( other.write_pos_ )
   , read_pos_( other.read_pos_ )
 {
@@ -52,7 +52,7 @@ ByteStream::ByteStream( ByteStream&& other )
   other.buffer_ = nullptr;
 }
 
-ByteStream& ByteStream::operator=( ByteStream&& other )
+ByteStream& ByteStream::operator=( ByteStream&& other ) noexcept
 {
   if ( this != &other ) {
     allocator<char>().deallocate( buffer_, capacity_ );
@@ -71,7 +71,6 @@ ByteStream& ByteStream::operator=( ByteStream&& other )
 
 ByteStream::~ByteStream()
 {
-  DEBUG( "des" );
   allocator<char>().deallocate( buffer_, capacity_ );
 }
 

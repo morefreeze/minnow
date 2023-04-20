@@ -25,10 +25,10 @@ protected:
 public:
   explicit ByteStream( uint64_t capacity );
   ~ByteStream();
-  ByteStream( const ByteStream& other );            // 复制构造函数
-  ByteStream& operator=( const ByteStream& other ); // 赋值运算符
-  ByteStream( ByteStream&& other );                 // 移动构造函数
-  ByteStream& operator=( ByteStream&& other );      // 移动赋值运算符
+  ByteStream( const ByteStream& other ) noexcept;            // 复制构造函数
+  ByteStream& operator=( const ByteStream& other ) noexcept; // 赋值运算符
+  ByteStream( ByteStream&& other ) noexcept;                 // 移动构造函数
+  ByteStream& operator=( ByteStream&& other ) noexcept;      // 移动赋值运算符
   // Helper functions (provided) to access the ByteStream's Reader and Writer interfaces
   Reader& reader();
   const Reader& reader() const;
