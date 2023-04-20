@@ -3,6 +3,3 @@ Checks:
 
 WarningsAsErrors:
    '*'
-
-CheckOptions:
-   hicpp-signed-bitwise.IgnorePositiveIntegerLiterals: 'true'
