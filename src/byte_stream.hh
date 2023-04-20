@@ -1,10 +1,10 @@
 #pragma once
 
+#include <iostream>
 #include <queue>
 #include <stdexcept>
 #include <string>
 #include <string_view>
-#include <iostream>
 
 using namespace std;
 class Reader;
@@ -15,19 +15,20 @@ class ByteStream
 protected:
   uint64_t capacity_;
   // Please add any additional state to the ByteStream here, and not to the Writer and Reader interfaces.
-  bool has_err_{false};
-  bool is_closed_{false};
-  char *buffer_;
+  bool has_err_ { false };
+  bool is_closed_ { false };
+  char* buffer_;
   string peek_;
-  uint64_t write_pos_{0};
-  uint64_t read_pos_{0};
+  uint64_t write_pos_ { 0 };
+  uint64_t read_pos_ { 0 };
+
 public:
   explicit ByteStream( uint64_t capacity );
   ~ByteStream();
-  ByteStream(const ByteStream& other); // 复制构造函数
-  ByteStream& operator=(const ByteStream& other); // 赋值运算符
-  ByteStream(ByteStream&& other); // 移动构造函数
-  ByteStream& operator=(ByteStream&& other); // 移动赋值运算符
+  ByteStream( const ByteStream& other );            // 复制构造函数
+  ByteStream& operator=( const ByteStream& other ); // 赋值运算符
+  ByteStream( ByteStream&& other );                 // 移动构造函数
+  ByteStream& operator=( ByteStream&& other );      // 移动赋值运算符
   // Helper functions (provided) to access the ByteStream's Reader and Writer interfaces
   Reader& reader();
   const Reader& reader() const;
@@ -66,5 +67,8 @@ public:
  * from a ByteStream Reader into a string;
  */
 void read( Reader& reader, uint64_t len, std::string& out );
-#define DEBUG(x) do { std::cerr << __FILE__ << ":" << __LINE__ << " " << __func__ << ":" << #x << ": " << (x) << std::endl; } while (0)
+#define DEBUG( x )                                                                                                 \
+  do {                                                                                                             \
+    std::cerr << __FILE__ << ":" << __LINE__ << " " << __func__ << ":" << #x << ": " << ( x ) << std::endl;        \
+  } while ( 0 )
 // #define DEBUG(x) do { } while (0)
