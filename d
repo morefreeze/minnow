@@ -1,0 +1,1 @@
+lldb-15 -s debug_source "$(find build/tests/ -type f -executable | fzf)"
