@@ -9,7 +9,7 @@ I collaborated with: [list sunetids here]
 
 I would like to thank/reward these classmates for their help: [list sunetids here]
 
-This lab took me about 2 hours to do. I [did/did not] attend the lab session.
+This lab took me about 3.5 hours to do. I [did/did not] attend the lab session.
 
 reassembler will reassemble all substrings which are received from somewhere by order.
 you can debug with like `gdb build/tests/byte_stream_one_write`.
@@ -21,10 +21,11 @@ should discard any bytes that lie out of capacity.
 It should also close stream when the last substring is finish.
 
 Implementation Challenges:
-how can i figure out output.capacity? Reassembler store buffer_ only save at least
+how can i figure out output.capacity? Reassembler store buffer only save at least
 campacity bytes, but how to know that? pass output of insert.
-
-
+push_and_tidy_list push data to buffer_ list and use try_merge
+to tidy whole linked list, try_merge will try to merge continuous item into one
+as its description.
 
 Remaining Bugs:
 []

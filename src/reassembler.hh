@@ -19,8 +19,9 @@ private:
   list<IdxData> buffer_;
   uint64_t next_byte_{0};
   uint64_t bytes_pending_{0};
+  bool is_last_substring_{false};
   void push_and_tidy_list(uint64_t idx, string data, const Writer& output);
-  void try_merge(list<IdxData>::iterator it, list<IdxData>::const_iterator end);
+  void try_merge();
   uint64_t calc_buffer();
 public:
   /*
