@@ -13,14 +13,23 @@ uint64_t IdxData::right() const {
   return idx + data.size();
 }
 
-void Reassembler::push_and_tidy_list(uint64_t idx, string data) {
+void Reassembler::push_and_tidy_list(uint64_t idx, string data, const Writer& output) {
+  auto output_right(output.bytes_pushed() + output.available_capacity());
+  // scenario 3: idx+data.size() out of output capacity, discard it
+  if (idx >= output_right) {
+    return;
+  }
   IdxData item({idx, move(data)});
+  if (output_right < item.right()) {
+    item.data = item.data.substr(0, output_right - idx);
+  }
   auto it = lower_bound(buffer_.begin(), buffer_.end(), item);
   buffer_.emplace(it, item);
   try_merge(it, buffer_.end());
   calc_buffer();
 }
 
+// try_merge try to merge overlapping IdxData to make sure each adjacent IdxData has at least 0 byte gap
 void Reassembler::try_merge(list<IdxData>::iterator it, list<IdxData>::const_iterator end) {
   if (it == end) {
     return;
@@ -53,14 +62,17 @@ void Reassembler::insert( uint64_t first_index, string data, bool is_last_substr
   if (data.size() == 0) {
     return;
   }
-  push_and_tidy_list(first_index, move(data));
+  push_and_tidy_list(first_index, move(data), output);
   while (!buffer_.empty()) {
     auto head(buffer_.front());
     if (head.idx > next_byte_) {
       break;
     }
-    next_byte_ += head.data.size();
-    output.push(move(head.data));
+    if (head.right() > next_byte_) {
+      auto new_data(head.data.substr(head.data.size() - (head.right() - next_byte_)));
+      output.push(move(new_data));
+      next_byte_ = output.bytes_pushed();
+    }
     buffer_.pop_front();
   }
   calc_buffer();
