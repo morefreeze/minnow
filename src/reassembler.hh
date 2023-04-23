@@ -3,9 +3,25 @@
 #include "byte_stream.hh"
 
 #include <string>
+#include <list>
+using namespace std;
 
+class IdxData {
+public:
+  uint64_t idx;
+  string data;
+  uint64_t right() const;
+};
+inline bool operator< (const IdxData& lhs, const IdxData& rhs);
 class Reassembler
 {
+private:
+  list<IdxData> buffer_;
+  uint64_t next_byte_{0};
+  uint64_t bytes_pending_{0};
+  void push_and_tidy_list(uint64_t idx, string data);
+  void try_merge(list<IdxData>::iterator it, list<IdxData>::const_iterator end);
+  uint64_t calc_buffer();
 public:
   /*
    * Insert a new substring to be reassembled into a ByteStream.
