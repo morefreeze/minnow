@@ -17,7 +17,8 @@ struct ReassemblerByteStreamTestStep : public TestStep<StreamAndReassembler>
 
   template<typename... Targs>
   explicit ReassemblerByteStreamTestStep( T byte_stream_test_step )
-    : TestStep<StreamAndReassembler>(), step_( std::move( byte_stream_test_step ) )
+    : TestStep<StreamAndReassembler>()
+    , step_( std::move( byte_stream_test_step ) )
   {}
 
   std::string str() const override { return step_.str(); }
@@ -56,7 +57,10 @@ struct Insert : public Action<StreamAndReassembler>
   uint64_t first_index_;
   bool is_last_substring_ {};
 
-  Insert( std::string data, uint64_t first_index ) : data_( move( data ) ), first_index_( first_index ) {}
+  Insert( std::string data, uint64_t first_index )
+    : data_( move( data ) )
+    , first_index_( first_index )
+  {}
 
   Insert& is_last( bool status = true )
   {

@@ -2,27 +2,29 @@
 
 #include "byte_stream.hh"
 
-#include <string>
 #include <list>
+#include <string>
 using namespace std;
 
-class IdxData {
+class IdxData
+{
 public:
   uint64_t idx;
   string data;
   uint64_t right() const;
 };
-inline bool operator< (const IdxData& lhs, const IdxData& rhs);
+inline bool operator<( const IdxData& lhs, const IdxData& rhs );
 class Reassembler
 {
 private:
   list<IdxData> buffer_;
-  uint64_t next_byte_{0};
-  uint64_t bytes_pending_{0};
-  bool is_last_substring_{false};
-  void push_and_tidy_list(uint64_t idx, string data, const Writer& output);
+  uint64_t next_byte_ { 0 };
+  uint64_t bytes_pending_ { 0 };
+  bool is_last_substring_ { false };
+  void push_and_tidy_list( uint64_t idx, string data, const Writer& output );
   void try_merge();
   uint64_t calc_buffer();
+
 public:
   /*
    * Insert a new substring to be reassembled into a ByteStream.

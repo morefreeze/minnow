@@ -44,7 +44,7 @@ ByteStream::ByteStream( ByteStream&& other ) noexcept
   , has_err_( other.has_err_ )
   , is_closed_( other.is_closed_ )
   , buffer_( other.buffer_ )
-  , peek_( move(other.peek_) )
+  , peek_( move( other.peek_ ) )
   , write_pos_( other.write_pos_ )
   , read_pos_( other.read_pos_ )
 {
