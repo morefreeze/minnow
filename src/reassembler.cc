@@ -65,7 +65,6 @@ void Reassembler::try_merge()
 
 void Reassembler::insert( uint64_t first_index, string data, bool is_last_substring, Writer& output )
 {
-  // Your code here.
   is_last_substring_ |= is_last_substring;
   push_and_tidy_list( first_index, move( data ), output );
   while ( !buffer_.empty() ) {
